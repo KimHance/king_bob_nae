@@ -35,6 +35,7 @@ class Extensions {
         const val NICK_SIZE_ERROR = 7
         const val SIGN_IN_ERROR = 8
         const val EMAIL_NOT_EXIST = 9
+        const val SUCCESS = 200
         val emailPattern = android.util.Patterns.EMAIL_ADDRESS
     }
 }

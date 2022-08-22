@@ -21,6 +21,7 @@ import com.example.king_bob_nae.utils.Extensions.Companion.NICK_ERROR
 import com.example.king_bob_nae.utils.Extensions.Companion.NICK_SIZE_ERROR
 import com.example.king_bob_nae.utils.Extensions.Companion.PASSWD_ERROR
 import com.example.king_bob_nae.utils.Extensions.Companion.SERVER_ERROR
+import com.example.king_bob_nae.utils.Extensions.Companion.SUCCESS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +60,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _result.emit(
                 when (checkEmailDuplicatedUseCase(email)) {
-                    200 -> AuthResponse(200, isDuplicatedEmail = true)
+                    200 -> AuthResponse(SUCCESS, isDuplicatedEmail = true)
                     400 -> AuthResponse(EMAIL_FORMAT_ERROR)
                     409 -> AuthResponse(EMAIL_USE_ERROR)
                     else -> AuthResponse(SERVER_ERROR)
@@ -73,7 +74,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _result.emit(
                 when (createCertificationUseCase(email, type)) {
-                    201 -> AuthResponse(201, createCertification = true)
+                    201 -> AuthResponse(SUCCESS, createCertification = true)
                     else -> AuthResponse(SERVER_ERROR)
                 }
             )
@@ -85,7 +86,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _result.emit(
                 when (checkCertificationUseCase(email, type, code)) {
-                    201 -> AuthResponse(201, checkCertification = true)
+                    201 -> AuthResponse(SUCCESS, checkCertification = true)
                     else -> AuthResponse(CERTIFICATION_ERROR)
                 }
             )
@@ -97,7 +98,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _result.emit(
                 when (validateNicknameUseCase(nickname)) {
-                    200 -> AuthResponse(200, checkNickname = true)
+                    200 -> AuthResponse(SUCCESS, checkNickname = true)
                     400 -> AuthResponse(NICK_SIZE_ERROR)
                     409 -> AuthResponse(NICK_ERROR)
                     else -> AuthResponse(SERVER_ERROR)
@@ -126,7 +127,7 @@ class IntroViewModel @Inject constructor(
                     }
                     else -> {
                         KkiLogApplication.prefs.accessToken = token
-                        SignInResponse(201, true)
+                        SignInResponse(SUCCESS, true)
                     }
                 }
             )
@@ -140,7 +141,7 @@ class IntroViewModel @Inject constructor(
                 when (checkEmailExistenceUseCase(email)) {
                     200 -> {
                         resetEmail.value = email
-                        AuthResponse(200, checkEmailExistence = true)
+                        AuthResponse(SUCCESS, checkEmailExistence = true)
                     }
                     400 -> AuthResponse(EMAIL_FORMAT_ERROR)
                     404 -> AuthResponse(EMAIL_NOT_EXIST)
@@ -155,7 +156,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _result.emit(
                 when (resetPasswordUseCase(resetEmail.value, newPassword, confirmPassword)) {
-                    201 -> AuthResponse(200, resetPassword = true)
+                    201 -> AuthResponse(SUCCESS, resetPassword = true)
                     else -> AuthResponse(PASSWD_ERROR)
                 }
             )
